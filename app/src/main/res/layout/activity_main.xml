@@ -46,6 +46,13 @@
                 android:text="Hello World!"
                 android:layout_marginTop="20dp"/>
 
+            <FrameLayout
+                android:id="@+id/flFlag"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+            </FrameLayout>
+            
             <ImageView
                 android:id="@+id/ivCompass"
                 android:layout_width="match_parent"

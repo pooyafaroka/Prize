@@ -8,8 +8,8 @@ import android.hardware.SensorManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
-import com.irancell.prize.Presenters.IRefreshCompass;
-import com.irancell.prize.Views.Activity.MainActivity;
+import com.irancell.prize.Presenters.IRefreshPresenterBySensor;
+import com.irancell.prize.Presenters.Presenter;
 
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -19,11 +19,11 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class Accelerometer implements SensorEventListener {
     private final Context mContext;
-    private MainActivity mainActivity;
+    private Presenter.Sensors mPresenter;
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
     private SensorManager mSensorManager;
-    private IRefreshCompass iRefreshCompass;
+    private IRefreshPresenterBySensor iRefreshPresenterBySensor;
     private float currentDegree = 0f;
 
     public Accelerometer(Context mContext)
@@ -32,18 +32,18 @@ public class Accelerometer implements SensorEventListener {
         mSensorManager = (SensorManager) this.mContext.getSystemService(SENSOR_SERVICE);
     }
 
-    public Accelerometer(Context mContext, MainActivity mainActivity) {
+    public Accelerometer(Context mContext, Presenter.Sensors mPresenter) {
         this.mContext = mContext;
         mSensorManager = (SensorManager) this.mContext.getSystemService(SENSOR_SERVICE);
-        this.mainActivity = mainActivity;
-        iRefreshCompass = mainActivity;
+        this.mPresenter = mPresenter;
+        iRefreshPresenterBySensor = mPresenter;
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         float degree = Math.round(sensorEvent.values[0]);
-        iRefreshCompass.RefreshSensorValues(sensorEvent);
+        iRefreshPresenterBySensor.RefreshSensorValues(sensorEvent);
         RotateAnimation ra = new RotateAnimation(
                 currentDegree,
                 -degree,
@@ -52,7 +52,7 @@ public class Accelerometer implements SensorEventListener {
                 0.5f);
         ra.setDuration(210);
         ra.setFillAfter(true);
-        iRefreshCompass.RefreshCompass(ra);
+        iRefreshPresenterBySensor.RefreshCompass(ra);
         currentDegree = -degree;
     }
 
@@ -68,4 +68,5 @@ public class Accelerometer implements SensorEventListener {
     public void onResum() {
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
     }
+
 }

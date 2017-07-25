@@ -30,11 +30,8 @@ public class CameraDevice extends SurfaceView implements SurfaceHolder.Callback{
         super(mContext);
         this.mContext = mContext;
         mCamera = camera;
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
         mHolder = getHolder();
         mHolder.addCallback(this);
-        // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
@@ -51,12 +48,11 @@ public class CameraDevice extends SurfaceView implements SurfaceHolder.Callback{
     public static Camera getCameraInstance(){
         Camera c = null;
         try {
-            c = Camera.open(); // attempt to get a Camera instance
+            c = Camera.open();
         }
         catch (Exception e){
-            // Camera is not available (in use or does not exist)
         }
-        return c; // returns null if camera is unavailable
+        return c;
     }
 
     @Override
@@ -72,6 +68,7 @@ public class CameraDevice extends SurfaceView implements SurfaceHolder.Callback{
         }
 
         Camera.Parameters parameters = mCamera.getParameters();
+
         Display display = ((WindowManager)this.mContext.getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
 
         if(display.getRotation() == Surface.ROTATION_0)
