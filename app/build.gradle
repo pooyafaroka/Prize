@@ -27,6 +27,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('libs/beyondar-v0.9.3.jar')
     compile 'com.android.support:multidex:1.0.0'
 }
